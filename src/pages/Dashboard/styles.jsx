@@ -10,7 +10,7 @@ const Wrapper = styled(Box)({
     alignItems: "center",
     flexDirection: "column",
     width: "80vw",
-    height: "80vh",
+    height: "90vh",
     padding: "1em 2em",
   },
   ".question-container": {
