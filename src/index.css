@@ -1,3 +1,13 @@
+:root {
+  --primary-clr: #b921ff;
+  --primary-light-clr: #b921ff7e;
+  --secondary-clr: #fa7099;
+  --secondary-light-clr: #fa709976;
+  --light-clr: #e4e3e3;
+  --dark-clr: #0f0f0f;
+}
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +20,26 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@font-face {
+  font-family: "ReFormationSansRegular";
+  src: local("ReFormationSansRegular"),
+    url("/src/assets/fonts/ReFormationSansRegular.ttf") format("truetype");
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+button {
+  background-color: #b921ff !important;
+}
+
+button:hover {
+  background-color: #650b8f !important;
+
 }
