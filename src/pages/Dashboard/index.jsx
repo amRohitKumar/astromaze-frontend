@@ -8,6 +8,7 @@ import Loader from "../../components/Loader";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const teamId = localStorage.getItem("teamId");
   console.log(teamId);
   const {
@@ -17,32 +18,38 @@ const Dashboard = () => {
   const [currQuestionImg, setCurrQuestImg] = useState("");
   const [answer, setAnswer] = useState("");
 
-  const fetchQuestion = async () => {
+  const fetchQuestion = async (e) => {
+    if (e) {
+      e.preventDefault();
+    }
     try {
-      console.log({ answer, teamId });
+      setLoading(true);
+      // console.log({ answer, teamId });
       const resp = await customFetch.post("/next", {
         answer: answer,
         teamId,
       });
       console.log(resp.data);
-      const {
-        msg,
-        isComplete,
-        nxtQuestion: { imageUrl, questionNumber },
-      } = resp.data;
+      const { msg, isComplete, nxtQuestion } = resp.data;
+      console.log(isComplete);
+      setLoading(false);
       if (isComplete) {
         toast.success("Thanks for participating !");
         localStorage.clear("teamId");
-        navigate("/");
+        return navigate("/");
       } else {
+        const { imageUrl, questionNumber } = nxtQuestion;
         toast.success(msg);
         setCurrQuestImg(imageUrl);
         setCurrentQuestion(questionNumber);
         setAnswer("");
       }
     } catch (e) {
+      setLoading(false);
       console.log("Error = ", e);
-      toast.error("Something went wrong ! try contacting admins");
+      toast.error(
+        e?.response?.data?.msg || "Something went wrong ! try contacting admins"
+      );
     }
   };
 
@@ -50,13 +57,19 @@ const Dashboard = () => {
     fetchQuestion();
   }, []);
 
-  if (!currQuestionImg || !currentQuestion) {
-    <Loader />;
-  }
+  // if (!currQuestionImg || !currentQuestion || loading) {
+  //   return <Loader />;
+  // }
 
   return (
     <Wrapper>
-      <Paper className="question-paper" elevation={3}>
+      {(!currQuestionImg || !currentQuestion || loading) && <Loader />}
+      <Paper
+        className="question-paper"
+        elevation={3}
+        component="form"
+        onSubmit={fetchQuestion}
+      >
         <Typography sx={{ fontWeight: "bold" }} variant="h4">
           Question {currentQuestion}:
         </Typography>
@@ -72,10 +85,11 @@ const Dashboard = () => {
           inputProps={{
             type: "number",
             min: 1,
-            max: 40,
+            max: 33,
+            step: 1,
           }}
         />
-        <Button variant="contained" sx={{ mt: "1em" }} onClick={fetchQuestion}>
+        <Button variant="contained" sx={{ mt: "1em" }} type="submit">
           Next
         </Button>
       </Paper>

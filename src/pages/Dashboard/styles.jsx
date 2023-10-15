@@ -2,13 +2,7 @@ import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 
 const Wrapper = styled(Box)({
-  backgroundImage: "linear-gradient(to bottom, #b921ff7e, #fa709976 )",
-  minHeight: "100vh",
-  display: "flex",
-  flexGrow: 1,
-  justifyContent: "center",
-  alignItems: "center",
-  overflowX: "hidden",
+  
   ".question-paper": {
     display: "flex",
     borderRadius: "10px",
